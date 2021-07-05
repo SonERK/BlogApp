@@ -12,7 +12,7 @@ namespace com.course.blog.entities.Models
         public string FullName { get; set; }
         [MaxLength(100)]
         public string UserName { get; set; }
-        [MaxLength(16)]
+        [MaxLength(32)]
         public string Password { get; set; }
         [MaxLength(100)]
         public string PictureUrl { get; set; }

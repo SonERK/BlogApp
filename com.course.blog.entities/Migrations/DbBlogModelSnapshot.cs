@@ -210,8 +210,8 @@ namespace com.course.blog.entities.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("Password")
-                        .HasMaxLength(16)
-                        .HasColumnType("nvarchar(16)");
+                        .HasMaxLength(32)
+                        .HasColumnType("nvarchar(32)");
 
                     b.Property<string>("PictureUrl")
                         .HasMaxLength(100)
