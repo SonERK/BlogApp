@@ -21,6 +21,7 @@ namespace com.course.blog.adminui.Controllers
             return View();
         }
 
+        [HttpPost]
         public JsonResult CreateSession(string userName, string password)
         {
             var encryptedPassword = password.CreateMD5();

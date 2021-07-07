@@ -1,6 +1,7 @@
 using com.course.blog.entities.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -28,8 +29,10 @@ namespace com.course.blog.adminui
                 options.IdleTimeout = TimeSpan.FromMinutes(60);
             });
 
-
-            services.AddControllersWithViews();
+            services.AddControllersWithViews(opt=> 
+            {
+                opt.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
+            });
 
             services.AddDbContext<DbBlog>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
