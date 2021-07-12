@@ -1,10 +1,9 @@
 ﻿using com.course.blog.adminui.Helpers;
 using com.course.blog.entities.Models;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
+using System.Net;
+using System.Net.Mail;
 
 namespace com.course.blog.adminui.Controllers
 {
@@ -32,12 +31,44 @@ namespace com.course.blog.adminui.Controllers
 
                 HttpContext.Session.Set<User>("User", user);
 
-                return Json(new { status=true,url="/Admin/Index"});
+                return Json(new { status = true, url = "/Admin/Index" });
             }
             else
             {
                 return Json(new { status = false });
             }
+        }
+
+        [HttpPost]
+        public JsonResult SendPassword(string eMail)
+        {
+            if (_context.Users.Any(u => u.UserName == eMail))
+            {
+                SendMail(eMail);
+                return Json(true);
+            }
+            else
+            {
+                return Json(false);
+            }
+        }
+
+        private void SendMail(string eMail)
+        {
+            MailMessage mailMessage = new MailMessage();
+
+            mailMessage.From = new MailAddress("confirmation@sonerkoylu.com");
+            mailMessage.To.Add(eMail);
+
+
+            var message = $"<b>Gönderen :</b> Soner KÖYLÜ<br/><b>sonerkoylu.com :</b> {eMail}<br/><b>Konu: </b> Şifre Hatırlatma<br/><b>Mesaj İçeriği:</b> <br>Şifreniz: 12345678";
+            mailMessage.Subject = "Şifre Hatırlatma";
+            mailMessage.Body = message;
+            mailMessage.IsBodyHtml = true;
+
+            var smtpClient = new SmtpClient("mail.sonerkoylu.com", 587);
+            smtpClient.Credentials = new NetworkCredential("confirmation@sonerkoylu.com", "VaNXdB6#cx%y^H");
+            smtpClient.Send(mailMessage);
         }
     }
 }
