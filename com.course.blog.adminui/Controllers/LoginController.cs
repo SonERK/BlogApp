@@ -17,6 +17,12 @@ namespace com.course.blog.adminui.Controllers
 
         public IActionResult Index()
         {
+            if (HttpContext.Session.Get<bool>("NotAuthorized"))
+            {
+                HttpContext.Session.Set<bool>("NotAuthorized", false);
+                TempData["NotAuthorized"] = true;
+            }
+
             return View();
         }
 

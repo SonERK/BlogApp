@@ -7,12 +7,12 @@ using System.Linq;
 using System.Threading.Tasks;
 
 namespace com.course.blog.adminui.Controllers
-{
-    public class AdminController : Controller
+{   
+    public class AdminController : BaseController
     {
         public IActionResult Index()
         {
-            ViewBag.FullName = HttpContext.Session.Get<User>("User").FullName;
+            //ViewBag.FullName = HttpContext.Session.Get<User>("User").FullName;
             return View();
         }
     }

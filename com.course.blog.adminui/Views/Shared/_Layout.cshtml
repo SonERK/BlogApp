@@ -25,6 +25,8 @@
     <link href='@Url.Content("~/assets/css/themes/layout/header/menu/light.css?v=7.0.5")' rel="stylesheet" type="text/css" />
     <link href='@Url.Content("~/assets/css/themes/layout/brand/dark.css?v=7.0.5")' rel="stylesheet" type="text/css" />
     <link href='@Url.Content("~/assets/css/themes/layout/aside/dark.css?v=7.0.5")' rel="stylesheet" type="text/css" />
+
+    @RenderSection("styles",false)
     <!--end::Layout Themes-->
     <link rel="shortcut icon" href='@Url.Content("~/assets/media/logos/favicon.ico")' />
 </head>
@@ -117,8 +119,8 @@
                             </li>
                             <li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover">
                                 <a href="javascript:;" class="menu-link menu-toggle">
-                                    <i class="menu-icon flaticon-web"></i>
-                                    <span class="menu-text">Kategori</span>
+                                    <i class="menu-icon fas fa-tag"></i>
+                                    <span class="menu-text"> Kategori</span>
                                     <i class="menu-arrow"></i>
                                 </a>
                                 <div class="menu-submenu">
@@ -126,7 +128,7 @@
                                     <ul class="menu-subnav">
 
                                         <li class="menu-item" aria-haspopup="true">
-                                            <a href="custom/apps/inbox.html" class="menu-link">
+                                            <a href='@Url.Action("CategoryProcess","Category")' class="menu-link">
                                                 <i class="menu-bullet menu-bullet-line">
                                                     <span></span>
                                                 </i>
@@ -137,7 +139,7 @@
                                             </a>
                                         </li>
                                         <li class="menu-item" aria-haspopup="true">
-                                            <a href="custom/apps/inbox.html" class="menu-link">
+                                            <a href='@Url.Action("Categories","Category")' class="menu-link">
                                                 <i class="menu-bullet menu-bullet-line">
                                                     <span></span>
                                                 </i>
@@ -149,7 +151,7 @@
                             </li>
                             <li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover">
                                 <a href="javascript:;" class="menu-link menu-toggle">
-                                    <i class="menu-icon flaticon-web"></i>
+                                    <i class="menu-icon fas fa-tags"></i>
                                     <span class="menu-text">Alt Kategori</span>
                                     <i class="menu-arrow"></i>
                                 </a>
@@ -158,7 +160,7 @@
                                     <ul class="menu-subnav">
 
                                         <li class="menu-item" aria-haspopup="true">
-                                            <a href="custom/apps/inbox.html" class="menu-link">
+                                            <a href='@Url.Action("SubCategoryProcess","SubCategory")' class="menu-link">
                                                 <i class="menu-bullet menu-bullet-line">
                                                     <span></span>
                                                 </i>
@@ -169,7 +171,7 @@
                                             </a>
                                         </li>
                                         <li class="menu-item" aria-haspopup="true">
-                                            <a href="custom/apps/inbox.html" class="menu-link">
+                                            <a href='@Url.Action("SubCategories","SubCategory")' class="menu-link">
                                                 <i class="menu-bullet menu-bullet-line">
                                                     <span></span>
                                                 </i>
@@ -181,7 +183,7 @@
                             </li>
                             <li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover">
                                 <a href="javascript:;" class="menu-link menu-toggle">
-                                    <i class="menu-icon flaticon-web"></i>
+                                    <i class="menu-icon far fa-file-alt"></i>
                                     <span class="menu-text">Makale</span>
                                     <i class="menu-arrow"></i>
                                 </a>
@@ -190,7 +192,7 @@
                                     <ul class="menu-subnav">
 
                                         <li class="menu-item" aria-haspopup="true">
-                                            <a href="custom/apps/inbox.html" class="menu-link">
+                                            <a href='@Url.Action("ArticleProcess","Article")' class="menu-link">
                                                 <i class="menu-bullet menu-bullet-line">
                                                     <span></span>
                                                 </i>
@@ -201,7 +203,7 @@
                                             </a>
                                         </li>
                                         <li class="menu-item" aria-haspopup="true">
-                                            <a href="custom/apps/inbox.html" class="menu-link">
+                                            <a href='@Url.Action("Articles","Article")' class="menu-link">
                                                 <i class="menu-bullet menu-bullet-line">
                                                     <span></span>
                                                 </i>
@@ -213,7 +215,7 @@
                             </li>
                             <li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover">
                                 <a href="javascript:;" class="menu-link menu-toggle">
-                                    <i class="menu-icon flaticon-web"></i>
+                                    <i class="menu-icon far fa-file-image"></i>
                                     <span class="menu-text">Dosya</span>
                                     <i class="menu-arrow"></i>
                                 </a>
@@ -222,7 +224,7 @@
                                     <ul class="menu-subnav">
 
                                         <li class="menu-item" aria-haspopup="true">
-                                            <a href="custom/apps/inbox.html" class="menu-link">
+                                            <a href='@Url.Action("DocumentProcess","Document")' class="menu-link">
                                                 <i class="menu-bullet menu-bullet-line">
                                                     <span></span>
                                                 </i>
@@ -233,7 +235,7 @@
                                             </a>
                                         </li>
                                         <li class="menu-item" aria-haspopup="true">
-                                            <a href="custom/apps/inbox.html" class="menu-link">
+                                            <a href='@Url.Action("Documents","Document")' class="menu-link">
                                                 <i class="menu-bullet menu-bullet-line">
                                                     <span></span>
                                                 </i>
@@ -245,7 +247,7 @@
                             </li>
                             <li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover">
                                 <a href="javascript:;" class="menu-link menu-toggle">
-                                    <i class="menu-icon flaticon-web"></i>
+                                    <i class="menu-icon fas fa-users"></i>
                                     <span class="menu-text">Abone</span>
                                     <i class="menu-arrow"></i>
                                 </a>
@@ -254,7 +256,7 @@
                                     <ul class="menu-subnav">
 
                                         <li class="menu-item" aria-haspopup="true">
-                                            <a href="custom/apps/inbox.html" class="menu-link">
+                                            <a href='@Url.Action("SubscriberProcess","Subscriber")' class="menu-link">
                                                 <i class="menu-bullet menu-bullet-line">
                                                     <span></span>
                                                 </i>
@@ -265,7 +267,7 @@
                                             </a>
                                         </li>
                                         <li class="menu-item" aria-haspopup="true">
-                                            <a href="custom/apps/inbox.html" class="menu-link">
+                                            <a href='@Url.Action("Subscribers","Subscriber")' class="menu-link">
                                                 <i class="menu-bullet menu-bullet-line">
                                                     <span></span>
                                                 </i>
@@ -277,7 +279,7 @@
                             </li>
                             <li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover">
                                 <a href="javascript:;" class="menu-link menu-toggle">
-                                    <i class="menu-icon flaticon-web"></i>
+                                    <i class="menu-icon fas fa-user-shield"></i>
                                     <span class="menu-text">Kullanıcı</span>
                                     <i class="menu-arrow"></i>
                                 </a>
@@ -286,7 +288,7 @@
                                     <ul class="menu-subnav">
 
                                         <li class="menu-item" aria-haspopup="true">
-                                            <a href="custom/apps/inbox.html" class="menu-link">
+                                            <a href='@Url.Action("UserProcess","User")' class="menu-link">
                                                 <i class="menu-bullet menu-bullet-line">
                                                     <span></span>
                                                 </i>
@@ -297,7 +299,7 @@
                                             </a>
                                         </li>
                                         <li class="menu-item" aria-haspopup="true">
-                                            <a href="custom/apps/inbox.html" class="menu-link">
+                                            <a href='@Url.Action("Users","User")' class="menu-link">
                                                 <i class="menu-bullet menu-bullet-line">
                                                     <span></span>
                                                 </i>
@@ -643,6 +645,8 @@
     <!--begin::Page Scripts(used by this page)-->
     <script src='@Url.Content("~/assets/js/pages/widgets.js?v=7.0.5")'></script>
     <!--end::Page Scripts-->
+
+    @RenderSection("scripts",false)
 </body>
 <!--end::Body-->
 </html>
