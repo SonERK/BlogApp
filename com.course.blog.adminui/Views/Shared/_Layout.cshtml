@@ -6,15 +6,12 @@
 <head>
     <base href="../../">
     <meta charset="utf-8" />
-    <title>Metronic | Empty Page</title>
+    <title>BlogApp | @ViewData["Title"]</title>
     <meta name="description" content="Page with empty content" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <!--begin::Fonts-->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" />
     <!--end::Fonts-->
-    <!--begin::Page Vendors Styles(used by this page)-->
-    <link href='@Url.Content("~/assets/plugins/custom/fullcalendar/fullcalendar.bundle.css?v=7.0.5")' rel="stylesheet" type="text/css")' />
-    <!--end::Page Vendors Styles-->
     <!--begin::Global Theme Styles(used by all pages)-->
     <link href='@Url.Content("~/assets/plugins/global/plugins.bundle.css?v=7.0.5")' rel="stylesheet" type="text/css" />
     <link href='@Url.Content("~/assets/plugins/custom/prismjs/prismjs.bundle.css?v=7.0.5")' rel="stylesheet" type="text/css" />
@@ -638,14 +635,10 @@
     <script src='@Url.Content("~/assets/plugins/custom/prismjs/prismjs.bundle.js?v=7.0.5")'></script>
     <script src='@Url.Content("~/assets/js/scripts.bundle.js?v=7.0.5")'></script>
     <!--end::Global Theme Bundle-->
-    <!--begin::Page Vendors(used by this page)-->
-    <script src='@Url.Content("~/assets/plugins/custom/fullcalendar/fullcalendar.bundle.js?v=7.0.5")'></script>
-    <script src='@Url.Content("~/assets/plugins/custom/gmaps/gmaps.js?v=7.0.5")'></script>
-    <!--end::Page Vendors-->
     <!--begin::Page Scripts(used by this page)-->
     <script src='@Url.Content("~/assets/js/pages/widgets.js?v=7.0.5")'></script>
     <!--end::Page Scripts-->
-
+    <script src='@Url.Content("~/js/jquery.unobtrusive-ajax.min.js")'></script>
     @RenderSection("scripts",false)
 </body>
 <!--end::Body-->

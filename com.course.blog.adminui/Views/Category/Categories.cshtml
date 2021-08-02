@@ -4,5 +4,29 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Categories</h1>
 
+
+<div class="row">
+    <div class="col-xl-12">
+        <!--begin::Card-->
+        <div class="card card-custom gutter-b">
+            <div class="card-header">
+                <div class="card-title">
+                    <h3 class="card-label">Categories</h3>
+                </div>
+            </div>
+            <div class="card-body">
+                <!--begin::Example-->
+                <div class="example mb-10">
+                    <div class="example-preview">
+                        <div id="data">
+                            <partial name="CategoryPartial" model="ViewBag.Categories" />
+                        </div>                       
+                    </div>                    
+                </div>
+                <!--end::Example-->
+            </div>
+        </div>
+        <!--end::Card-->
+    </div>
+</div>

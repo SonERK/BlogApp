@@ -31,7 +31,7 @@ namespace com.course.blog.adminui
 
             services.AddControllersWithViews(opt=> 
             {
-                opt.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
+               // opt.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
             });
 
             services.AddDbContext<DbBlog>(options =>

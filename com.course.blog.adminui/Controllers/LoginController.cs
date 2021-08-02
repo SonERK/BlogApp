@@ -27,6 +27,7 @@ namespace com.course.blog.adminui.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public JsonResult CreateSession(string userName, string password)
         {
             var encryptedPassword = password.CreateMD5();
@@ -46,6 +47,7 @@ namespace com.course.blog.adminui.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public JsonResult SendPassword(string eMail)
         {
             if (_context.Users.Any(u => u.UserName == eMail))
