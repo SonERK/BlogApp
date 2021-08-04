@@ -18,7 +18,7 @@
                 <h3 class="card-title">@ViewData["Title"]</h3>
                 <div class="card-toolbar">
                     <div class="example-tools justify-content-center">
-
+                        <a href='@Url.Action("Categories","Category")' class="btn btn-primary mr-2"> Categories</a>
                     </div>
                 </div>
             </div>
@@ -40,6 +40,8 @@
         <!--end::Card-->
     </div>
 </div>
+
+@Html.Hidden("id")
 
 @section scripts
 {
@@ -81,19 +83,38 @@
                     validation.validate().then(function (status) {
                         if (status == 'Valid') {
 
-                            $.ajax({
-                                type: "POST",
-                                dataType: "JSON",
-                                url: '@Url.Action("SaveCategory","Category")',
-                                data: { categoryName: $("#category").val(),  },
-                                success: function (result) {
-                                    if (result) {
-                                        toastr.success("Category Added !");
-                                    } else {
-                                        toastr.error("Process does not completed !");
+                            console.log($("#id").val());
+
+                            if ($("#id").val() != "") {
+                                $.ajax({
+                                    type: "POST",
+                                    dataType: "JSON",
+                                    url: '@Url.Action("UpdateCategory", "Category")',
+                                    data: { id: $("#id").val(), categoryName: $("#category").val() },
+                                    success: function (result) {
+                                        if (result) {
+                                            toastr.success("Category Updated !");
+                                        } else {
+                                            toastr.error("Process does not completed !");
+                                        }
                                     }
-                                }
-                            });
+                                });
+                            } else {
+                                $.ajax({
+                                    type: "POST",
+                                    dataType: "JSON",
+                                    url: '@Url.Action("SaveCategory","Category")',
+                                    data: { categoryName: $("#category").val(), },
+                                    success: function (result) {
+                                        if (result) {
+                                            toastr.success("Category Added !");
+                                        } else {
+                                            toastr.error("Process does not completed !");
+                                        }
+                                    }
+                                });
+                            }
+
 
 
                         } else {
@@ -114,7 +135,7 @@
 
             }
 
-      
+
 
             // Public Functions
             return {
@@ -127,9 +148,38 @@
             };
         }();
 
+        function getCategory() {
+            $.ajax({
+                type: "POST",
+                dataType: "JSON",
+                url: '@Url.Action("GetCategory","Category")',
+                data: { id: $("#id").val(), },
+                success: function (result) {
+
+                    if (result != null) {
+                        $("#category").val(result.detail);
+                    }
+                }
+            });
+        }
+
+        $.urlParam = function (name) {
+            var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+            if (results == null) {
+                return null;
+            }
+            return decodeURI(results[1]) || 0;
+        }
+
         // Class Initialization
-        jQuery(document).ready(function () {       
+        jQuery(document).ready(function () {
             KTCategory.init();
+
+            if ($.urlParam('id') != null) {
+                $("#id").val($.urlParam('id'));
+
+                getCategory();
+            }
         });
 
     </script>

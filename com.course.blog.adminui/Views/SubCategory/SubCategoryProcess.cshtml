@@ -4,5 +4,194 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>SubCategoryProcess</h1>
+
+@section styles
+{
+
+}
+
+
+<div class="row">
+    <div class="col-lg-12">
+        <!--begin::Card-->
+        <div class="card card-custom gutter-b example example-compact">
+            <div class="card-header">
+                <h3 class="card-title">@ViewData["Title"]</h3>
+                <div class="card-toolbar">
+                    <div class="example-tools justify-content-center">
+                        <a href='@Url.Action("SubCategories","SubCategory")' class="btn btn-primary mr-2"> SubCategories</a>
+                    </div>
+                </div>
+            </div>
+            <!--begin::Form-->
+            <form id="blogForm" class="form">
+                <div class="card-body">
+                    <div class="form-group">
+                        <label>Category:</label>
+                        @Html.DropDownList("Categories", null, "All Categories", new { @class = "form-control", @id="category" })
+                    </div>
+                    <div class="form-group">
+                        <label>SubCategory Name:</label>
+                        <input id="subCategory" type="text" name="subCategory" class="form-control form-control-solid" placeholder="Enter sub category name" />
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <button id="btnSave" type="button" class="btn btn-primary mr-2">Save</button>
+                    <button type="reset" class="btn btn-secondary">Clear</button>
+                </div>
+            </form>
+            <!--end::Form-->
+        </div>
+        <!--end::Card-->
+    </div>
+</div>
+
+@Html.Hidden("id")
+
+@section scripts
+{
+    <script type="text/javascript">
+        "use strict";
+
+        // Class Definition
+        var KTForm = function () {
+            var _form;
+
+            var _handleForm = function () {
+                var validation;
+
+                // Init form validation rules. For more info check the FormValidation plugin's official documentation:https://formvalidation.io/
+                validation = FormValidation.formValidation(
+                    KTUtil.getById('blogForm'),
+                    {
+                        fields: {
+                            Categories: {
+                                validators: {
+                                    notEmpty: {
+                                        message: 'Category is not empty!'
+                                    }
+                                }
+                            },
+                            subCategory: {
+                                validators: {
+                                    notEmpty: {
+                                        message: 'SubCategory is not empty!'
+                                    }
+                                }
+                            }
+                        },
+                        plugins: {
+                            trigger: new FormValidation.plugins.Trigger(),
+                            submitButton: new FormValidation.plugins.SubmitButton(),
+                            //defaultSubmit: new FormValidation.plugins.DefaultSubmit(), // Uncomment this line to enable normal button submit after form validation
+                            bootstrap: new FormValidation.plugins.Bootstrap()
+                        }
+                    }
+                );
+
+                $('#btnSave').on('click', function (e) {
+                    e.preventDefault();
+
+                    validation.validate().then(function (status) {
+                        if (status == 'Valid') {
+
+                            if ($("#id").val() != "") {
+                                $.ajax({
+                                    type: "POST",
+                                    dataType: "JSON",
+                                    url: '@Url.Action("UpdateSubCategory", "SubCategory")',
+                                    data: { id: $("#id").val(),categoryId:$("#category").val(), subCategoryName: $("#subCategory").val() },
+                                    success: function (result) {
+                                        if (result) {
+                                            toastr.success("SubCategory Updated !");
+                                        } else {
+                                            toastr.error("Process does not completed !");
+                                        }
+                                    }
+                                });
+                            } else {
+                                $.ajax({
+                                    type: "POST",
+                                    dataType: "JSON",
+                                    url: '@Url.Action("SaveSubCategory", "SubCategory")',
+                                    data: {categoryId:$("#category").val(), subCategoryName: $("#category").val(), },
+                                    success: function (result) {
+                                        if (result) {
+                                            toastr.success("SubCategory Added !");
+                                        } else {
+                                            toastr.error("Process does not completed !");
+                                        }
+                                    }
+                                });
+                            }
+
+
+
+                        } else {
+                            swal.fire({
+                                text: "One more errors detected on your form !",
+                                icon: "error",
+                                buttonsStyling: false,
+                                confirmButtonText: "Ok, Got it !",
+                                customClass: {
+                                    confirmButton: "btn font-weight-bold btn-light-primary"
+                                }
+                            }).then(function () {
+                                KTUtil.scrollTop();
+                            });
+                        }
+                    });
+                });
+
+            }
+
+
+
+            // Public Functions
+            return {
+                // public functions
+                init: function () {
+                    _form = $('#blogForm');
+
+                    _handleForm();
+                }
+            };
+        }();
+
+        function getSubCategory() {
+            $.ajax({
+                type: "POST",
+                dataType: "JSON",
+                url: '@Url.Action("GetSubCategory", "SubCategory")',
+                data: { id: $("#id").val(), },
+                success: function (result) {
+                    if (result != null) {
+                        $("#category").val(result.categoryId);
+                        $("#subCategory").val(result.subCategoryName);
+                    }
+                }
+            });
+        }
+
+        $.urlParam = function (name) {
+            var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+            if (results == null) {
+                return null;
+            }
+            return decodeURI(results[1]) || 0;
+        }
+
+        // Class Initialization
+        jQuery(document).ready(function () {
+            KTForm.init();
+
+            if ($.urlParam('id') != null) {
+                $("#id").val($.urlParam('id'));
+
+                getSubCategory();
+            }
+        });
+
+    </script>
+}
 

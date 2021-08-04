@@ -35,7 +35,6 @@ namespace com.course.blog.adminui.Controllers
                 ViewBag.Categories = model;
                 return View(model);
             }
-
         }
 
         [HttpPost]
@@ -46,13 +45,66 @@ namespace com.course.blog.adminui.Controllers
                 var category = new Category
                 {
                     Detail = categoryName,
-                    SaveDate=DateTime.Now,
+                    SaveDate = DateTime.Now,
                     IsActive = true
                 };
 
                 _context.Categories.Add(category);
 
                 return Json(_context.SaveChanges() > 0);
+            }
+            else
+            {
+                return Json(false);
+            }
+        }
+
+        [HttpPost]
+        public JsonResult GetCategory(int id)
+        {
+            if (_context.Categories.Any(c => c.CategoryId == id))
+            {
+                var candidate = _context.Categories.Find(id);
+
+                return Json(candidate);
+            }
+            else
+            {
+                return Json(null);
+            }
+        }
+
+        [HttpPost]
+        public JsonResult UpdateCategory(int id,string categoryName)
+        {
+            if (_context.Categories.Any(c => c.CategoryId == id))
+            {
+                var candidate = _context.Categories.Find(id);
+
+                candidate.Detail = categoryName;
+                candidate.SaveDate = DateTime.Now;
+
+                return Json(_context.SaveChanges() > 0);
+            }
+            else
+            {
+                return Json(false);
+            }
+        }
+
+        [HttpPost]
+        public JsonResult ChangeStatus(int id)
+        {
+            if (_context.Categories.Any(c => c.CategoryId == id))
+            {
+                var candidate = _context.Categories.Find(id);
+
+                candidate.IsActive = !candidate.IsActive;
+                candidate.SaveDate = DateTime.Now;
+
+                _context.SaveChanges();
+
+                return Json(candidate.IsActive);
             }
             else
             {

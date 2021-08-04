@@ -4,5 +4,92 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>SubCategories</h1>
+@model SubCategoryViewModel
+
+<div class="row">
+    <div class="col-lg-12">
+        <!--begin::Card-->
+        <div class="card card-custom gutter-b example example-compact">
+            <!--begin::Form-->
+            <form asp-controller="SubCategory" asp-action="SubCategories" data-ajax="true" data-ajax-method="post" data-ajax-complete="loadData">
+                <div class="card-body">
+                    <div class="form-group">
+                        <label>Category:</label>
+                        @Html.DropDownListFor(model=> Model.CategoryId,ViewBag.Categories as IEnumerable<SelectListItem>,"All Categories",new { @class="form-control"})
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <button type="submit" class="btn btn-primary mr-2">Get SubCategories</button>
+                </div>
+            </form>
+            <!--end::Form-->
+        </div>
+        <!--end::Card-->
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-xl-12">
+        <!--begin::Card-->
+        <div class="card card-custom gutter-b">
+            <div class="card-header">
+                <div class="card-title">
+                    <h3 class="card-label">SubCategories</h3>
+                </div>
+            </div>
+            <div class="card-body">
+                <!--begin::Example-->
+                <div class="example mb-10">
+                    <div class="example-preview">
+                        <div id="data">
+                            <partial name="SubCategoryPartial" model="ViewBag.SubCategories" />
+                        </div>
+                    </div>
+                </div>
+                <!--end::Example-->
+            </div>
+        </div>
+        <!--end::Card-->
+    </div>
+</div>
+
+
+@section scripts
+{
+    <script type="text/javascript">
+
+        function loadData(result) {
+
+            console.log(result);
+            $("#data").html(result.responseText);
+        }
+
+    $(document).on("click", ".update", function () {
+
+        window.location.href = "/SubCategory/SubCategoryProcess?id=" + $(this).attr("name");
+    });
+
+        $(document).on("click", ".changeStatus", function () {
+            var row = $(this).closest("tr");
+
+        $.ajax({
+            type: "POST",
+            dataType: "JSON",
+            url: '@Url.Action("ChangeStatus", "Category")',
+            data: { id: $(this).attr("name")},
+            success: function (result) {
+                if (result) {
+
+                    row.find("td:eq(5)").html('<span class="label label-inline label-light-success font-weight-bold">Aktif</span>');
+
+                    toastr.success("Category Activated !");
+                } else {
+                    row.find("td:eq(5)").html('<span class="label label-inline label-light-danger font-weight-bold">Pasif</span>');
+                    toastr.warning("Category Deactivated !");
+                }
+            }
+        });
+    });
+    </script>
+}
 

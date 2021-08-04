@@ -35,7 +35,10 @@ namespace com.course.blog.adminui
             });
 
             services.AddDbContext<DbBlog>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            {
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+                options.UseLazyLoadingProxies(true);
+            });
 
             services.AddDatabaseDeveloperPageExceptionFilter();
         }

@@ -30,3 +30,36 @@
         <!--end::Card-->
     </div>
 </div>
+
+
+@section scripts
+{
+    <script type="text/javascript">
+    $(document).on("click", ".update", function () {
+
+        window.location.href = "/Category/CategoryProcess?id=" + $(this).attr("name");
+    });
+
+        $(document).on("click", ".changeStatus", function () {
+            var row = $(this).closest("tr");
+
+        $.ajax({
+            type: "POST",
+            dataType: "JSON",
+            url: '@Url.Action("ChangeStatus", "Category")',
+            data: { id: $(this).attr("name")},
+            success: function (result) {
+                if (result) {
+
+                    row.find("td:eq(4)").html('<span class="label label-inline label-light-success font-weight-bold">Aktif</span>');
+
+                    toastr.success("Category Activated !");
+                } else {
+                    row.find("td:eq(4)").html('<span class="label label-inline label-light-danger font-weight-bold">Pasif</span>');
+                    toastr.warning("Category Deactivated !");
+                }
+            }
+        });
+    });
+    </script>
+}

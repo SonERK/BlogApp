@@ -1,4 +1,4 @@
-﻿@model CategoryViewModel
+﻿@model SubCategoryViewModel
 
 @using X.PagedList.Mvc.Core;
 @using X.PagedList;
@@ -12,6 +12,7 @@
         <tr>
             <th scope="col">Id</th>
             <th scope="col">Category Name</th>
+            <th scope="col">SubCategory Name</th>
             <th scope="col">Description</th>
             <th scope="col">Save Date</th>
             <th scope="col">Status</th>
@@ -20,10 +21,11 @@
     </thead>
     <tbody>
 
-        @foreach (var item in Model.Categories)
+        @foreach (var item in Model.SubCategories)
         {
             <tr>
-                <td scope="row">@item.CategoryId</td>
+                <td scope="row">@item.SubCategoryId</td>
+                <td>@item.Category.Detail</td>
                 <td>@item.Detail</td>
                 <td>@item.Description</td>
                 <td>@(item.SaveDate!=null?Convert.ToDateTime(item.SaveDate).ToString("yyyy-MM-dd HH:mm:ss"):"-")</td>
@@ -42,8 +44,8 @@
                     <div class="btn-group">
                         <button type="button" class="btn btn-primary dropdown-toggle btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Actions</button>
                         <div class="dropdown-menu">
-                            <button class="dropdown-item update" name="@item.CategoryId">Update</button>
-                            <button class="dropdown-item changeStatus" name="@item.CategoryId">Change Status</button>
+                            <button class="dropdown-item update" name="@item.SubCategoryId">Update</button>
+                            <button class="dropdown-item changeStatus" name="@item.SubCategoryId">Change Status</button>
                         </div>
                     </div>
                 </td>
@@ -54,6 +56,7 @@
     </tbody>
 </table>
 
-@Html.PagedListPager(Model.Categories, page => Url.Action("Categories", "Category", new RouteValueDictionary {
+@Html.PagedListPager(Model.SubCategories, page => Url.Action("SubCategories", "SubCategory", new RouteValueDictionary {
     { "Page", page },
+    { "CategoryId", Model.CategoryId },
 }), PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(new AjaxOptions() { HttpMethod = "POST", UpdateTargetId = "data" }))
