@@ -1,0 +1,68 @@
+﻿@model ArticleViewModel
+
+@using X.PagedList.Mvc.Core;
+@using X.PagedList;
+@using X.PagedList.Web.Common
+
+@using Microsoft.AspNetCore.Routing
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col"><i class="fa fa-image"></i> Cover</th>
+            <th scope="col">Category</th>
+            <th scope="col">SubCategory</th>
+            <th scope="col">Subject</th>
+            <th scope="col">Save Date</th>
+            <th scope="col">Status</th>
+            <th scope="col">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var item in Model.Articles)
+        {
+            <tr>
+                <td>
+                    @if (!string.IsNullOrEmpty(item.CoverPhoto))
+                    {
+                        <img src="~/images/@item.CoverPhoto" alt="Cover" height="30px;" width="30px;" class="img-thumbnail"/>
+                    }
+                </td>
+                <td>@item.SubCategory.Category.Detail</td>
+                <td>@item.SubCategory.Detail</td>
+                <td>@item.Subject</td>
+                <td>@(item.SaveDate!=null?Convert.ToDateTime(item.SaveDate).ToString("yyyy-MM-dd HH:mm:ss"):"-")</td>
+                <td>
+                    @if (item.IsActive)
+                    {
+                        <span class="label label-inline label-light-success font-weight-bold">Aktif</span>
+                    }
+                    else
+                    {
+                        <span class="label label-inline label-light-danger font-weight-bold">Pasif</span>
+                    }
+                </td>
+                <td>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-primary dropdown-toggle btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Actions</button>
+                        <div class="dropdown-menu">
+                            <button class="dropdown-item update" name="@item.ArticleId">Update</button>
+                            <button class="dropdown-item updateCover" name="@item.ArticleId">Upload Cover</button>
+                            <button class="dropdown-item changeStatus" name="@item.ArticleId">Change Status</button>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+
+        }
+
+    </tbody>
+</table>
+
+@Html.PagedListPager(Model.Articles, page => Url.Action("Articles", "Article", new RouteValueDictionary {
+    { "Page", page },
+    { "CategoryId", Model.CategoryId },
+    { "SubCategoryId", Model.SubCategoryId },
+}), PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(new AjaxOptions() { HttpMethod = "POST", UpdateTargetId = "data" }))

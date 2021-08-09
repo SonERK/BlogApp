@@ -4,5 +4,176 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Articles</h1>
+@model ArticleViewModel
+
+<div class="row">
+    <div class="col-lg-12">
+        <!--begin::Card-->
+        <div class="card card-custom gutter-b example example-compact">
+            <!--begin::Form-->
+            <form asp-controller="Article" asp-action="Articles" data-ajax="true" data-ajax-method="post" data-ajax-complete="loadData">
+                <div class="card-body">
+                    <div class="form-group">
+                        <label>Category:</label>
+                        @Html.DropDownListFor(model => Model.CategoryId, ViewBag.Categories as IEnumerable<SelectListItem>, "All Categories", new { @class = "form-control", id = "category" })
+                    </div>
+                    <div class="form-group">
+                        <label>SubCategory:</label>
+                        @Html.DropDownListFor(model => Model.SubCategoryId, ViewBag.SubCategories as IEnumerable<SelectListItem>, "All SubCategories", new { @class = "form-control", id = "subCategory" })
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <button type="submit" class="btn btn-primary mr-2">Get Articles</button>
+                </div>
+            </form>
+            <!--end::Form-->
+        </div>
+        <!--end::Card-->
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-xl-12">
+        <!--begin::Card-->
+        <div class="card card-custom gutter-b">
+            <div class="card-header">
+                <div class="card-title">
+                    <h3 class="card-label">Articles</h3>
+                </div>
+            </div>
+            <div class="card-body">
+                <!--begin::Example-->
+                <div class="example mb-10">
+                    <div class="example-preview">
+                        <div id="data">
+                            <partial name="ArticlePartial" model="ViewBag.Articles" />
+                        </div>
+                    </div>
+                </div>
+                <!--end::Example-->
+            </div>
+        </div>
+        <!--end::Card-->
+    </div>
+</div>
+
+<!-- Modal-->
+<div class="modal fade" id="coverModal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdrop" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Upload Cover Photo</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i aria-hidden="true" class="ki ki-close"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <input id="cover" name="cover" type="file" size="1" />
+            </div>
+            <div class="modal-footer">
+                <button id="btnSave" type="button" class="btn btn-primary font-weight-bold">Save changes</button>
+                <button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@Html.Hidden("articleId")
+
+
+@section scripts
+{
+    <script type="text/javascript">
+
+        function loadData(result) {
+            $("#data").html(result.responseText);
+        }
+
+        $(document).on("click", ".update", function () {
+
+            window.location.href = "/Article/ArticleProcess?id=" + $(this).attr("name");
+        });
+
+        $(document).on("click", ".updateCover", function () {
+
+            $("#articleId").val($(this).attr("name"));
+
+            $("#coverModal").modal();
+        });
+
+        $(document).on("click", ".changeStatus", function () {
+            var row = $(this).closest("tr");
+
+            $.ajax({
+                type: "POST",
+                dataType: "JSON",
+                url: '@Url.Action("ChangeStatus", "Article")',
+                data: { id: $(this).attr("name") },
+                success: function (result) {
+                    if (result) {
+
+                        row.find("td:eq(5)").html('<span class="label label-inline label-light-success font-weight-bold">Aktif</span>');
+
+                        toastr.success("Category Activated !");
+                    } else {
+                        row.find("td:eq(5)").html('<span class="label label-inline label-light-danger font-weight-bold">Pasif</span>');
+                        toastr.warning("Category Deactivated !");
+                    }
+                }
+            });
+        });
+
+        function getSubCategories() {
+
+            $.ajax({
+                type: "POST",
+                dataType: "JSON",
+                url: '@Url.Action("GetSubCategories", "Article")',
+                data: { categoryId: $("#category").val(), },
+                success: function (result) {
+                    if (result != null) {
+
+                        $("#subCategory").empty();
+
+                        $.each(result, function (index, value) {
+                            $("#subCategory").append("<option value='" + value.id + "'>" + value.text + "</option>");
+                        });
+                    }
+                }
+            });
+        }
+
+        $("#category").change(function () {
+            getSubCategories();
+        });
+
+        $('#btnSave').on('click', function (e) {
+
+            var formData = new FormData();
+            formData.append("file", $("#cover")[0].files[0]);
+            formData.append("articleId", $("#articleId").val());
+
+            $.ajax({
+                type: "POST",
+                dataType: "JSON",
+                url: '@Url.Action("UploadCover", "Article")',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (result) {
+                    if (result) {
+                        toastr.success("Article Cover Uploaded !");
+                        $("#coverModal").modal("hide");
+                        $("#cover").val("");
+                    } else {
+                        toastr.error("Process does not completed !");
+                    }
+                }
+            });
+
+        });
+    </script>
+}
+
+
 

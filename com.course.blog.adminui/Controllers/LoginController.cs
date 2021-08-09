@@ -34,7 +34,13 @@ namespace com.course.blog.adminui.Controllers
 
             if (_context.Users.Any(a => a.UserName == userName && a.Password == encryptedPassword))
             {
-                var user = _context.Users.First(u => u.UserName == userName && u.Password == encryptedPassword);
+                var candidate = _context.Users.First(u => u.UserName == userName && u.Password == encryptedPassword);
+
+                var user = new User
+                {
+                    UserId = candidate.UserId,
+                    FullName = candidate.FullName
+                };
 
                 HttpContext.Session.Set<User>("User", user);
 
