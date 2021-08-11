@@ -1,0 +1,66 @@
+﻿@model PagedArticleViewModel
+
+@using X.PagedList.Mvc.Core;
+@using X.PagedList;
+@using X.PagedList.Web.Common
+
+@using Microsoft.AspNetCore.Routing
+
+
+@foreach (var item in Model.Articles)
+{
+    <!-- post -->
+    <div class="post post-xl">
+        <!-- top section -->
+        <div class="post-top">
+            <ul class="meta list-inline mb-0">
+                <li class="list-inline-item"><a href="#"><img src="~/assets/images/other/author-sm.png" class="author" alt="author" />@item.User.FullName</a></li>
+                <li class="list-inline-item">@(Convert.ToDateTime(item.SaveDate).ToString("dd MMM yyyy"))</li>
+               
+            </ul>
+            <h5 class="post-title mb-0 mt-4"><a href='@Url.Action("ContentPage","Home",new {id=item.ArticleId})'>@item.Subject</a></h5>
+        </div>
+        <!-- thumbnail -->
+        <div class="thumb rounded">
+            <a href="#" class="category-badge lg position-absolute">@item.SubCategory.Detail</a>
+            <span class="post-format">
+                <i class="icon-picture"></i>
+            </span>
+            <a href='@Url.Action("ContentPage","Home",new {id=item.ArticleId})'>
+                <div class="inner">
+                    <img src="~/assets/images/posts/post-xl-1.jpg" alt="post-title" />
+                </div>
+            </a>
+        </div>
+        <!-- details -->
+        <div class="details">
+            <p class="excerpt mb-0">@item.ShortDetail</p>
+        </div>
+        <div class="post-bottom clearfix d-flex align-items-center">
+            <div class="social-share me-auto">
+                <button class="toggle-button icon-share"></button>
+                <ul class="icons list-unstyled list-inline mb-0">
+                    <li class="list-inline-item"><a href="#"><i class="fab fa-facebook-f"></i></a></li>
+                    <li class="list-inline-item"><a href="#"><i class="fab fa-twitter"></i></a></li>
+                    <li class="list-inline-item"><a href="#"><i class="fab fa-linkedin-in"></i></a></li>
+                    <li class="list-inline-item"><a href="#"><i class="fab fa-pinterest"></i></a></li>
+                    <li class="list-inline-item"><a href="#"><i class="fab fa-telegram-plane"></i></a></li>
+                    <li class="list-inline-item"><a href="#"><i class="far fa-envelope"></i></a></li>
+                </ul>
+            </div>
+            <div class="float-end d-none d-md-block">
+                <a href='@Url.Action("ContentPage","Home",new {id=item.ArticleId})' class="more-link">Continue reading<i class="icon-arrow-right"></i></a>
+            </div>
+            <div class="more-button d-block d-md-none float-end">
+                <a href="blog-single.html"><span class="icon-options"></span></a>
+            </div>
+        </div>
+    </div>
+}
+
+@Html.PagedListPager(Model.Articles, page => Url.Action("Index", "Home", new RouteValueDictionary {
+    { "Page", page },
+}),
+PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(
+    new PagedListRenderOptions { UlElementClasses = new[] { "pagination justify-content-center" }, ContainerDivClasses = new[] { "page-item" },ActiveLiElementClass= "page-item active",PageClasses= new[] { "page-link" } },
+    new AjaxOptions() { HttpMethod = "POST", UpdateTargetId = "data" }))

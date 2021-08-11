@@ -1,0 +1,18 @@
+﻿@model List<SubCategoryViewModel>
+
+
+    <div class="widget rounded">
+        <div class="widget-header text-center">
+            <h3 class="widget-title">Explore Topics</h3>
+            <img src="~/assets/images/wave.svg" class="wave" alt="wave" />
+        </div>
+        <div class="widget-content">
+            <ul class="list">
+                @foreach (var item in Model)
+                {
+                    <li><a href="#">@item.SubCategoryName</a><span>(@item.Count)</span></li>
+                }
+            </ul>
+        </div>
+
+    </div>

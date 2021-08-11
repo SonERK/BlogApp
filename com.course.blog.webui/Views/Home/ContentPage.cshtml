@@ -1,0 +1,152 @@
+﻿@model ArticleViewModel
+
+@section styles
+{
+    <style type="text/css">
+        iframe {
+            max-width: 95% !important;
+            max-height: 95% !important;
+        }
+    </style>
+}
+
+<div class="row gy-4">
+
+    <div class="col-lg-8">
+        <!-- post single -->
+        <div class="post post-single">
+            <!-- post header -->
+            <div class="post-header">
+                <h1 class="title mt-0 mb-3">@Model.Subject</h1>
+                <ul class="meta list-inline mb-0">
+                    <li class="list-inline-item"><a href="#"><img src="~/assets/images/other/author-sm.png" class="author" alt="author" />@Model.FullName</a></li>
+                    <li class="list-inline-item"><a href="#">@Model.SubCategory</a></li>
+                    <li class="list-inline-item">@(Convert.ToDateTime(Model.SaveDate).ToString("dd MMM yyyy"))</li>
+                </ul>
+            </div>
+            <!-- post content -->
+            <div class="post-content clearfix">
+                @Html.Raw(Model.Detail)
+            </div>
+            <!-- post bottom section -->
+            <div class="post-bottom">
+                <div class="row d-flex align-items-center">
+                    <div class="col-md-6 col-12 text-center text-md-start">
+                        <!-- tags -->
+                        @foreach (var item in Model.Tags)
+                        {
+                            <a href="#" class="tag">#@item</a>
+                        }
+                    </div>
+                    <div class="col-md-6 col-12">
+                        <!-- social icons -->
+                        <ul class="social-icons list-unstyled list-inline mb-0 float-md-end">
+                            <li class="list-inline-item"><a href="#"><i class="fab fa-facebook-f"></i></a></li>
+                            <li class="list-inline-item"><a href="#"><i class="fab fa-twitter"></i></a></li>
+                            <li class="list-inline-item"><a href="#"><i class="fab fa-linkedin-in"></i></a></li>
+                            <li class="list-inline-item"><a href="#"><i class="fab fa-pinterest"></i></a></li>
+                            <li class="list-inline-item"><a href="#"><i class="fab fa-telegram-plane"></i></a></li>
+                            <li class="list-inline-item"><a href="#"><i class="far fa-envelope"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="spacer" data-height="50"></div>
+
+        <div class="about-author padding-30 rounded">
+            <div class="thumb">
+                <img src="~/assets/images/other/avatar-about.png" alt="@Model.FullName" />
+            </div>
+            <div class="details">
+                <h4 class="name"><a href="#">@Model.FullName</a></h4>
+                <p>@Model.Biography</p>
+                <!-- social icons -->
+                <ul class="social-icons list-unstyled list-inline mb-0">
+                    <li class="list-inline-item"><a href="#"><i class="fab fa-facebook-f"></i></a></li>
+                    <li class="list-inline-item"><a href="#"><i class="fab fa-twitter"></i></a></li>
+                    <li class="list-inline-item"><a href="#"><i class="fab fa-instagram"></i></a></li>
+                    <li class="list-inline-item"><a href="#"><i class="fab fa-pinterest"></i></a></li>
+                    <li class="list-inline-item"><a href="#"><i class="fab fa-medium"></i></a></li>
+                    <li class="list-inline-item"><a href="#"><i class="fab fa-youtube"></i></a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="spacer" data-height="50"></div>
+    </div>
+
+    <div class="col-lg-4">
+
+        <!-- sidebar -->
+        <div class="sidebar">
+            <!-- widget about -->
+            <div class="widget rounded">
+                <div class="widget-about data-bg-image text-center" data-bg-image="~/assets/images/map-bg.png">
+                    <img src="~/assets/images/logo.svg" alt="logo" class="mb-4" />
+                    <p class="mb-4">@Model.Biography</p>
+                    <ul class="social-icons list-unstyled list-inline mb-0">
+                        <li class="list-inline-item"><a href="#"><i class="fab fa-facebook-f"></i></a></li>
+                        <li class="list-inline-item"><a href="#"><i class="fab fa-twitter"></i></a></li>
+                        <li class="list-inline-item"><a href="#"><i class="fab fa-instagram"></i></a></li>
+                        <li class="list-inline-item"><a href="#"><i class="fab fa-pinterest"></i></a></li>
+                        <li class="list-inline-item"><a href="#"><i class="fab fa-medium"></i></a></li>
+                        <li class="list-inline-item"><a href="#"><i class="fab fa-youtube"></i></a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- widget popular posts -->
+            <partial name="PopularPostPartial" model="ViewBag.PopularPosts" />
+
+            <!-- widget categories -->
+            <partial name="SubCategoryPartial" model="ViewBag.SubCategories" />
+
+            <!-- widget newsletter -->
+            <div class="widget rounded">
+                <div class="widget-header text-center">
+                    <h3 class="widget-title">Newsletter</h3>
+                    <img src="~/assets/images/wave.svg" class="wave" alt="wave" />
+                </div>
+                <div class="widget-content">
+                    <span class="newsletter-headline text-center mb-3">Join 70,000 subscribers!</span>
+                    <form>
+                        <div class="mb-2">
+                            <input class="form-control w-100 text-center" placeholder="Email address…" type="email">
+                        </div>
+                        <button class="btn btn-default btn-full" type="submit">Sign Up</button>
+                    </form>
+                    <span class="newsletter-privacy text-center mt-3">By signing up, you agree to our <a href="#">Privacy Policy</a></span>
+                </div>
+            </div>
+
+            <!-- widget advertisement -->
+            <div class="widget no-container rounded text-md-center">
+                <span class="ads-title">- Sponsored Ad -</span>
+                <a href="#" class="widget-ads">
+                    <img src="~/assets/images/ads/ad-360.png" alt="Advertisement" />
+                </a>
+            </div>
+
+            <!-- widget tags -->
+            <div class="widget rounded">
+                <div class="widget-header text-center">
+                    <h3 class="widget-title">Tag Clouds</h3>
+                    <img src="~/assets/images/wave.svg" class="wave" alt="wave" />
+                </div>
+                <div class="widget-content">
+
+                    @foreach (var item in Model.Tags)
+                    {
+                        <a href="#" class="tag">#@item</a>
+                    }
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

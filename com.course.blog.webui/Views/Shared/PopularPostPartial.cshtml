@@ -1,0 +1,34 @@
+﻿@model List<ArticleViewModel>
+
+    <div class="widget rounded">
+        <div class="widget-header text-center">
+            <h3 class="widget-title">Popular Posts</h3>
+            <img src="~/assets/images/wave.svg" class="wave" alt="wave" />
+        </div>
+        <div class="widget-content">
+
+            @foreach (var item in Model)
+            {
+
+                <!-- post -->
+                <div class="post post-list-sm circle">
+                    <div class="thumb circle">
+                        <span class="number">1</span>
+                        <a href="blog-single.html">
+                            <div class="inner">
+                                <img src="~/assets/images/posts/tabs-1.jpg" alt="post-title" />
+                            </div>
+                        </a>
+                    </div>
+                    <div class="details clearfix">
+                        <h6 class="post-title my-0"><a href='@Url.Action("ContentPage","Home",new {id=item.ArticleId})'>@item.Subject</a></h6>
+                        <ul class="meta list-inline mt-1 mb-0">
+                            <li class="list-inline-item">@(Convert.ToDateTime(item.SaveDate).ToString("dd MMM yyyy"))</li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- post -->
+
+            }
+        </div>
+    </div>
