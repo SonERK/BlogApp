@@ -80,5 +80,24 @@ namespace com.course.blog.webui.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+        [HttpPost]
+        public JsonResult Subscribe(Subscriber subscriber)
+        {
+            if (!_context.Subscribers.Any(s => s.MailAddress == subscriber.MailAddress))
+            {
+                subscriber.SubscriberId = Guid.NewGuid();
+                subscriber.SaveDate = DateTime.Now;
+                subscriber.IsActive = true;
+
+                _context.Subscribers.Add(subscriber);
+
+                return Json(_context.SaveChanges());
+            }
+            else
+            {
+                return Json(false);
+            }
+        }
     }
 }

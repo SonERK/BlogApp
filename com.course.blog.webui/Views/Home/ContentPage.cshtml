@@ -2,6 +2,7 @@
 
 @section styles
 {
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" type="text/css"/>
     <style type="text/css">
         iframe {
             max-width: 95% !important;
@@ -107,18 +108,20 @@
             <!-- widget newsletter -->
             <div class="widget rounded">
                 <div class="widget-header text-center">
-                    <h3 class="widget-title">Newsletter</h3>
+                    <h3 class="widget-title">Subscribe </h3>
                     <img src="~/assets/images/wave.svg" class="wave" alt="wave" />
                 </div>
                 <div class="widget-content">
                     <span class="newsletter-headline text-center mb-3">Join 70,000 subscribers!</span>
                     <form>
                         <div class="mb-2">
-                            <input class="form-control w-100 text-center" placeholder="Email address…" type="email">
+                            <input id="fullName" class="form-control w-100 text-center" placeholder="Full Name" type="text" maxlength="150">
                         </div>
-                        <button class="btn btn-default btn-full" type="submit">Sign Up</button>
+                        <div class="mb-2">
+                            <input id="mailAddress" class="form-control w-100 text-center" placeholder="Email address…" type="email" maxlength="250">
+                        </div>
+                        <button id="btnSubscribe" class="btn btn-default btn-full" type="button">Subscribe</button>
                     </form>
-                    <span class="newsletter-privacy text-center mt-3">By signing up, you agree to our <a href="#">Privacy Policy</a></span>
                 </div>
             </div>
 
@@ -150,3 +153,54 @@
     </div>
 
 </div>
+
+@section scripts{ 
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+
+<script type="text/javascript">
+
+    function validateEmail($email) {
+        var emailReg = /^([\w-\.]+@@([\w-]+\.)+[\w-]{2,4})?$/;
+        return emailReg.test($email);
+    }
+
+    $('#btnSubscribe').on('click', function () {
+
+        if ($("#fullName").val().length > 5) {
+
+            if ($("#mailAddress").val().length > 10) {
+
+                if (validateEmail($("#mailAddress").val())) {
+
+                    var subscriber = {
+                        FullName: $("#fullName").val(),
+                        MailAddress: $("#mailAddress").val(),
+                    };
+
+                    $.ajax({
+                        type: "POST",
+                        dataType: "JSON",
+                        url: '@Url.Action("Subscribe", "Home")',
+                        data: { subscriber: subscriber },
+                        success: function (result) {
+                            if (result) {
+                                toast.success("You have subscribed...");
+                            } else {
+                                toastr.error("Process does not complete !");
+                            }
+                        }
+                    });
+                } else {
+                    toastr.warning("Mail Address format incorrect !");
+                }
+            } else {
+                toastr.warning("Mail Address is Required !");
+            }
+        } else {
+            toastr.warning("Full Name is Required !");
+        }
+
+    });
+</script>
+
+}
